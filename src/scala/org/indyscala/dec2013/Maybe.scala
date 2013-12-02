@@ -18,7 +18,12 @@ sealed abstract class Maybe[+A] {
       Empty
     else
       f( this.get )
-
+  def flatMap[B](f: A => Maybe[B]): Maybe[B] = bind(f)
+  def map[B](f: A => B): Maybe[B] = 
+    if (this.isEmpty)
+      Empty
+    else
+      Just(f(this.get))
 }
 
 case class Just[A](x: A) extends Maybe[A] {
